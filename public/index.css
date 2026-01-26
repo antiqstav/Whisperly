@@ -433,6 +433,128 @@ button:hover {
     margin-top: 40px;
 }
 
+/* Upload-specific styles */
+.file-input-container {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 20px;
+    border: 2px dashed #60a5fa;
+    border-radius: 12px;
+    background-color: rgba(96, 165, 250, 0.1);
+    transition: all 0.3s ease;
+}
+
+.file-input-container:hover {
+    border-color: #ffffff;
+    background-color: rgba(96, 165, 250, 0.2);
+}
+
+.file-label {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+#fileInput {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #4a5568;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 16px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.file-info {
+    font-size: 14px;
+    color: #e2e8f0;
+    font-style: italic;
+}
+
+.upload-progress {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    max-width: 400px;
+    height: 10px;
+    background-color: #4a5568;
+    border-radius: 5px;
+    margin: 0 auto 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #60a5fa;
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 5px;
+}
+
+.progress-text {
+    color: #e2e8f0;
+    font-size: 16px;
+}
+
+.file-details {
+    background-color: #2d3748;
+    color: #ecf0f1;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.file-details h3 {
+    color: #60a5fa;
+    margin-bottom: 15px;
+    font-size: 20px;
+    border-bottom: 2px solid #60a5fa;
+    padding-bottom: 5px;
+    font-weight: 700;
+}
+
+#file-info {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #f1f5f9;
+}
+
+.file-info-item {
+    margin-bottom: 8px;
+}
+
+.file-info-label {
+    font-weight: bold;
+    color: #60a5fa;
+}
+
+/* Error and success states */
+.error-message {
+    background-color: #e53e3e;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.success-message {
+    background-color: #38a169;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: center;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .sidenav {

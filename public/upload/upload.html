@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whisperly - DropAndListen</title>
+  <meta name="description" content="Upload audio files for transcription with AI">
+  <link rel="stylesheet" href="../index.css" />
+</head>
+<body>
+  <nav class="sidenav" role="navigation" aria-label="Main navigation">
+    <div class="nav-header">
+      <h2 class="nav-title">Whisperly</h2>
+    </div>
+    <ul class="nav-links">
+      <li><a href="../index/index.html" aria-label="Go to home page">
+        <span class="label">Home</span>
+      </a></li>
+      <li><a href="upload.html" class="active" aria-label="DropAndListen file upload transcription (current page)">
+        <span class="label">DropAndListen</span>
+      </a></li>
+      <li><a href="../internal/internal.html" aria-label="Go to VoiceNotes browser audio transcription">
+        <span class="label">VoiceNotes</span>
+      </a></li>
+      <li class="coming-soon">
+        <span class="label">LiveListen</span>
+        <span class="badge">Coming Soon</span>
+      </li>
+    </ul>
+  </nav>
+  
+  <main class="main app-page" role="main">
+    <header class="page-header">
+      <h1 class="page-title">DropAndListen</h1>
+      <p class="page-description">Upload audio files for AI transcription</p>
+      <p class="instructions"><strong>Instructions:</strong> Select an audio file (MP3, WAV, M4A, etc.) and click upload to get an AI transcription and summary</p>
+    </header>
+    
+      <h2 id="upload-heading" class="sr-only">File Upload Controls</h2>
+      
+      <div id="uploadContainer" enctype="multipart/form-data">
+  <div class="file-input-container">
+    <label for="fileInput" class="file-label">Choose Audio File:</label>
+    <input type="file" id="fileInput" name="file" accept=".mp3,.wav,.m4a,.mp4,.mpeg,.flac,.webm,.mov,.avi" required>
+    <span class="file-info">Supported formats: MP3, WAV, M4A, MP4, MPEG, FLAC, WebM, MOV, AVI</span>
+  </div>
+
+  <p id="processing" style="color: orange; display: none; margin: 0 auto;">Processing...</p>
+  
+  <div class="control-buttons">
+    <button type="button" id="uploadBtn" aria-label="Upload and transcribe audio file">Upload & Transcribe</button>
+    <button type="button" id="clearBtn" aria-label="Clear current results" style="display: none;">Clear Results</button>
+    <button type="button" id="summaryBtn" aria-label="Generate summary of transcription" style="display: none;">Get Summary</button>
+  </div>
+</div>
+
+    
+    <section class="output" aria-labelledby="output-heading" id="outputSection" style="display: none;">
+      <h2 id="output-heading" class="sr-only">Transcription Output</h2>
+      <div class="captions" aria-live="polite" aria-label="File transcription">
+        <p>Transcription:</p>
+        <p id="captions-text"></p>
+      </div>
+      <div class="summary" aria-live="polite" aria-label="Generated summary">
+        <h3>Summary:</h3>
+        <div id="summary-text"></div>
+      </div>
+    </section>
+  </main>
+  <script src="upload.js"></script>
+  
+</body>
+</html>

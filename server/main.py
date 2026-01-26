@@ -2,6 +2,9 @@ from fastapi import FastAPI, WebSocket
 from .stt import transcribe_audio
 from .summary import summarize_text
 import json
+import os
+from datetime import datetime
+from pathlib import Path
 
 app = FastAPI()
 audio_buffer = b""
@@ -14,7 +17,6 @@ async def websocket_endpoint(ws: WebSocket):
 
     while True:
         try:
-            # Try to receive as bytes first (for audio data)
             try:
                 audio_chunk = await ws.receive_bytes()
                 audio_buffer += audio_chunk
@@ -32,7 +34,6 @@ async def websocket_endpoint(ws: WebSocket):
                     print(f"Transcribed: {text}")
                     
             except:
-                # If receiving bytes fails, try text (for JSON messages)
                 try:
                     text_message = await ws.receive_text()
                     data = json.loads(text_message)
@@ -51,6 +52,8 @@ async def websocket_endpoint(ws: WebSocket):
                             }))
                 except Exception as inner_e:
                     print(f"Error processing text message: {inner_e}")
+                    print(inner_e)
+                    print(type(inner_e))
                     break
                         
         except Exception as e:
