@@ -15,11 +15,12 @@ We decided to build a suite of applications called "Whisperly", named after a po
   - Favorite coding experience: 
 * Stavya Palassery - Backend Lead and Middleware manager
   - Senior
-  - Favorite coding experience;
+  - Favorite coding experience:
 * Jason Qian - Frontend Lead
   - Sophomore
   - Favorite coding experience: 
 * Aadi Jain - AI/ML Lead and STT model designer
   - Sophomore
   - Favorite coding experience: 
+
 
