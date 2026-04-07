@@ -18,16 +18,15 @@
         <li><a href="../index/index.html" aria-label="Go to home page">
           <span class="label">Home</span>
         </a></li>
-        <li><a href="external.html" class="active" aria-label="LiveListen microphone transcription (current page)">
-          <span class="label">LiveListen</span>
+        <li><a href="../upload/upload.html" aria-label="Go to DropAndListen file audio transcription">
+          <span class="label">DropAndListen</span>
         </a></li>
         <li><a href="../internal/internal.html" aria-label="Go to VoiceNotes browser audio transcription">
           <span class="label">VoiceNotes</span>
         </a></li>
-        <li class="coming-soon">
-          <span class="label">DropAndListen</span>
-          <span class="badge">Coming Soon</span>
-        </li>
+        <li><a href="../external/" class="active" aria-label="LiveListen microphone transcription (current page)">
+          <span class="label">LiveListen</span>
+        </a></li>
       </ul>
     </nav>
     
@@ -35,6 +34,7 @@
       <header class="page-header">
         <h1 class="page-title">LiveListen</h1>
         <p class="page-description">Real-time microphone transcription</p>
+        <p class="instructions"><strong>Instructions:</strong> Click "Start Listening", allow microphone access, and Whisperly will append live transcript chunks as you speak.</p>
       </header>
       
       <section class="controls" aria-labelledby="controls-heading">
@@ -42,8 +42,10 @@
         <div class="control-buttons">
           <button id="startBtn" aria-label="Start microphone recording">Start Listening</button>
           <button id="stopBtn" style="display: none" aria-label="Stop microphone recording">Stop Listening</button>
-          <button id="summaryBtn" aria-label="Generate summary of transcription">Get Summary</button>
+          <button id="summaryBtn" aria-label="Generate summary of transcription" disabled>Summary Coming Soon</button>
         </div>
+
+        <div id="statusMessage" class="error-message" role="status" aria-live="polite" hidden></div>
         
         <div class="font-control">
           <label for="fontSize">Text Size:</label>
@@ -61,9 +63,9 @@
           <h3>Transcription:</h3>
           <div id="captions-text"></div>
         </div>
-        <div class="summary" aria-live="polite" aria-label="Generated summary">
+        <div class="summary show" aria-live="polite" aria-label="Generated summary">
           <h3>Summary:</h3>
-          <div id="summary-text"></div>
+          <div id="summary-text">Summaries for LiveListen are coming soon!</div>
         </div>
       </section>
     </main>

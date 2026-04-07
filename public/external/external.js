@@ -1,117 +1,207 @@
-const ws = new WebSocket("ws://localhost:8000/ws");
-const captions = document.getElementById("captions");
-const summaryBox = document.getElementById("summary");
+const captions = document.getElementById("captions-text");
+const summaryText = document.getElementById("summary-text");
+const startBtn = document.getElementById("startBtn");
+const stopBtn = document.getElementById("stopBtn");
+const statusMessage = document.getElementById("statusMessage");
+const fontSizeControl = document.getElementById("fontSize");
 
-document.getElementById("fontSize").onchange = (e) => {
-  captions.style.fontSize = e.target.value;
-};
-
-ws.onmessage = (event) => {
-  console.log("Received:", event.data);
-  const data = JSON.parse(event.data);
-
-  if (data.type === "TRANSCRIPT") {
-    captions.innerText += " " + data.text;
-  }
-
-  if (data.type === "SUMMARY_RESULT") {
-    summaryBox.innerText = data.summary;
-  }
-};
-
+let ws = null;
 let currentRecorder = null;
 let currentStream = null;
 let audioChunks = [];
 let isRecordingActive = false;
+let stopTimeoutId = null;
 
-document.getElementById("startBtn").onclick = async () => {
-  document.getElementById("stopBtn").style.display = "inline";
-  document.getElementById("startBtn").style.display = "none";
-  try {
-    // Stop previous recording if exists
-    if (currentRecorder && currentRecorder.state !== 'inactive') {
-      currentRecorder.stop();
-    }
-    if (currentStream) {
-      currentStream.getTracks().forEach(track => track.stop());
-    }
+function setStatus(message) {
+  statusMessage.textContent = message;
+  statusMessage.hidden = !message;
+}
 
-    currentStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    currentRecorder = new MediaRecorder(currentStream, {
-      mimeType: 'audio/webm;codecs=opus'
-    });
-    
-    audioChunks = [];
-    isRecordingActive = true;
-    
-    currentRecorder.ondataavailable = (e) => {
-      if (e.data.size > 0) {
-        audioChunks.push(e.data);
-      }
-    };
-    
-    currentRecorder.onstop = () => {
-      if (audioChunks.length > 0) {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-        ws.send(audioBlob);
-        console.log(`Sent complete audio: ${audioBlob.size} bytes`);
-        audioChunks = [];
-      }
-      
-      // Restart recording if still active
-      if (isRecordingActive && currentStream && currentStream.active) {
-        setTimeout(() => {
-          if (isRecordingActive && currentRecorder && currentStream.active) {
-            currentRecorder.start();
-            scheduleStop();
-          }
-        }, 100);
-      }
-    };
+function clearStatus() {
+  setStatus("");
+}
 
-    function scheduleStop() {
-      setTimeout(() => {
-        if (currentRecorder && currentRecorder.state === 'recording' && isRecordingActive) {
-          currentRecorder.stop();
-        }
-      }, 3000);
-    }
+function setButtons(isListening) {
+  startBtn.style.display = isListening ? "none" : "inline";
+  stopBtn.style.display = isListening ? "inline" : "none";
+}
 
-    // Start initial recording
-    currentRecorder.start();
-    scheduleStop();
-    
-    console.log('Recording started');
-    
-  } catch (err) {
-    isRecordingActive = false;
-    if (err.name === 'NotAllowedError') {
-      console.log('Permission denied - user denied microphone access');
-      alert('Please allow microphone access to use this feature');
-    } else if (err.name === 'NotFoundError') {
-      console.log('No microphone found');
-      alert('No microphone device found');
-    } else {
-      console.log('Error accessing microphone:', err.message);
-      alert('Error accessing microphone: ' + err.message);
-    }
+function closeWebSocket() {
+  if (ws && ws.readyState <= WebSocket.OPEN) {
+    ws.close();
   }
-};
 
-document.getElementById("summaryBtn").onclick = () => {
-  ws.send(JSON.stringify({ type: "SUMMARY_REQUEST" }));
-  document.getElementsByClassName('summary')[0].style.display = "block";
-};
+  ws = null;
+}
 
-document.getElementById("stopBtn").addEventListener("click", () => {
-  document.getElementById("stopBtn").style.display = "none";
-  document.getElementById("startBtn").style.display = "inline";
-  isRecordingActive = false;
-  if (currentRecorder && currentRecorder.state !== 'inactive') {
-    currentRecorder.stop();
-  }
+function stopTracks() {
   if (currentStream) {
     currentStream.getTracks().forEach(track => track.stop());
   }
-  console.log('Recording stopped');
+
+  currentStream = null;
+}
+
+function resetSession() {
+  isRecordingActive = false;
+
+  if (stopTimeoutId) {
+    clearTimeout(stopTimeoutId);
+    stopTimeoutId = null;
+  }
+
+  if (currentRecorder && currentRecorder.state !== "inactive") {
+    currentRecorder.stop();
+  }
+
+  currentRecorder = null;
+  stopTracks();
+  closeWebSocket();
+  setButtons(false);
+}
+
+function connectWebSocket() {
+  return new Promise((resolve, reject) => {
+    const wsProtocol = window.location.protocol === "https:" ? "wss" : "ws";
+    const wsHost = window.location.hostname || "127.0.0.1";
+    const nextSocket = new WebSocket(`${wsProtocol}://${wsHost}:8000/ws`);
+
+    nextSocket.onopen = () => {
+      ws = nextSocket;
+      resolve(nextSocket);
+    };
+
+    nextSocket.onmessage = event => {
+      const data = JSON.parse(event.data);
+
+      if (data.type === "TRANSCRIPT") {
+        captions.textContent = `${captions.textContent} ${data.text}`.trim();
+      } else if (data.type === "ERROR") {
+        setStatus(
+          data.message || "The live transcription backend returned an error.",
+        );
+        resetSession();
+      }
+    };
+
+    nextSocket.onerror = () => {
+      if (ws !== nextSocket) {
+        setStatus(
+          "Could not connect to the live transcription backend on port 8000.",
+        );
+      }
+    };
+
+    nextSocket.onclose = () => {
+      const closedDuringRecording = isRecordingActive;
+      ws = null;
+
+      if (closedDuringRecording) {
+        setStatus("The live transcription connection closed unexpectedly.");
+        resetSession();
+      }
+    };
+
+    nextSocket.addEventListener(
+      "error",
+      () => {
+        reject(new Error("WebSocket connection failed"));
+      },
+      {once: true},
+    );
+  });
+}
+
+function scheduleStop() {
+  if (stopTimeoutId) {
+    clearTimeout(stopTimeoutId);
+  }
+
+  stopTimeoutId = setTimeout(() => {
+    if (
+      currentRecorder &&
+      currentRecorder.state === "recording" &&
+      isRecordingActive
+    ) {
+      currentRecorder.stop();
+    }
+  }, 3000);
+}
+
+fontSizeControl.addEventListener("change", event => {
+  captions.style.fontSize = event.target.value;
+});
+
+// summaryText.textContent = "Summaries for LiveListen are coming soon!";
+
+startBtn.addEventListener("click", async () => {
+  clearStatus();
+  setButtons(true);
+  captions.textContent = "";
+
+  if (currentRecorder && currentRecorder.state !== "inactive") {
+    currentRecorder.stop();
+  }
+
+  stopTracks();
+  closeWebSocket();
+
+  try {
+    await connectWebSocket();
+    currentStream = await navigator.mediaDevices.getUserMedia({audio: true});
+    currentRecorder = new MediaRecorder(currentStream, {
+      mimeType: "audio/webm;codecs=opus",
+    });
+
+    audioChunks = [];
+    isRecordingActive = true;
+
+    currentRecorder.ondataavailable = event => {
+      if (event.data.size > 0) {
+        audioChunks.push(event.data);
+      }
+    };
+
+    currentRecorder.onstop = async () => {
+      if (!isRecordingActive) {
+        audioChunks = [];
+        return;
+      }
+
+      if (audioChunks.length) {
+        const audioBlob = new Blob(audioChunks, {type: "audio/webm"});
+        audioChunks = [];
+
+        if (ws && ws.readyState === WebSocket.OPEN) {
+          ws.send(audioBlob);
+        }
+      }
+
+      if (isRecordingActive && currentStream && currentStream.active) {
+        currentRecorder.start();
+        scheduleStop();
+      }
+    };
+
+    currentRecorder.start();
+    scheduleStop();
+  } catch (error) {
+    console.error("LiveListen start error:", error);
+    resetSession();
+
+    if (error.name === "NotAllowedError") {
+      setStatus("Microphone access was denied. Please allow it and try again.");
+    } else if (error.name === "NotFoundError") {
+      setStatus("No microphone was found on this device.");
+    } else {
+      setStatus(
+        "LiveListen could not start. Make sure the Flask app and port 8000 WebSocket server are both running.",
+      );
+    }
+  }
+});
+
+stopBtn.addEventListener("click", () => {
+  clearStatus();
+  resetSession();
 });

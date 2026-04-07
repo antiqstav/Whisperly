@@ -35,6 +35,12 @@ def serve_upload():
 def serve_internal():
     return send_from_directory("../public/internal", "internal.html")
 
+# Serve external page
+@app.route("/external/")
+@app.route("/external/external.html")
+def serve_external():
+    return send_from_directory("../public/external", "external.html")
+
 # Serve static files (CSS, JS, etc.)
 @app.route("/<path:filepath>")
 def serve_static(filepath):
@@ -42,6 +48,8 @@ def serve_static(filepath):
     if filepath.startswith("upload/"):
         return send_from_directory("../public", filepath)
     elif filepath.startswith("internal/"):
+        return send_from_directory("../public", filepath)
+    elif filepath.startswith("external/"):
         return send_from_directory("../public", filepath)
     elif filepath.startswith("index/"):
         return send_from_directory("../public", filepath)
