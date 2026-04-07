@@ -9,16 +9,19 @@
       content="Real-time AI transcription for microphones, browser audio, and file uploads"
     />
     <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="home.css" />
     <script src="index.js"></script>
   </head>
   <body>
     <nav class="sidenav" role="navigation" aria-label="Main navigation">
       <div class="nav-header">
-        <h2 class="nav-title">Whisperly</h2>
+        <a href="../index/index.html">
+          <h2 class="nav-title">Whisperly</h2>
+        </a>
       </div>
       <ul class="nav-links">
         <li>
-          <a href="../index/index.html" aria-label="Go to home page">
+          <a href="../index/index.html" class="active" aria-label="Go to home page">
             <span class="label">Home</span>
           </a>
         </li>
@@ -54,23 +57,22 @@
       <section class="features" aria-labelledby="features-heading">
         <h2 id="features-heading" class="sr-only">Available Features</h2>
 
-        <div class="feature-card">
+        <a href="../upload/upload.html" class="feature-card" aria-label="Go to DropAndListen file audio transcription">
           <div class="feature-icon">📁</div>
           <h3>DropAndListen</h3>
           <p id="dragandlisten-desc">
             Upload and transcribe audio or video files. Batch processing for
             recorded content, podcasts, and archived media.
           </p>
-          <a
-            href="../upload/upload.html"
+          <span
             class="cta-button"
             aria-label="Go to DropAndListen file audio transcription"
           >
             Try DropAndListen
-          </a>
-        </div>
+        </span>
+        </a>
 
-        <div class="feature-card">
+        <a href="../internal/internal.html" class="feature-card" aria-label="Go to VoiceNotes browser audio transcription">
           <div class="feature-icon">💻</div>
           <h3>VoiceNotes</h3>
           <p id="voicenotes-desc">
@@ -78,14 +80,11 @@
             streaming content. Add captions to any audio playing in your
             browser.
           </p>
-          <a
-            href="../internal/internal.html"
-            class="cta-button"
-            aria-label="Go to VoiceNotes browser audio transcription"
-          >
+          <span class="cta-button"
+          aria-label="Go to VoiceNotes browser audio transcription">
             Try VoiceNotes
-          </a>
-        </div>
+          </span>
+        </a>
 
         <div class="feature-card coming-soon-card">
           <div class="feature-icon">🎙️</div>
@@ -94,13 +93,12 @@
             Real-time microphone transcription for meetings, interviews, and
             voice notes. Perfect for live conversations and presentations.
           </p>
-          <button
-            class="cta-button"
-            disabled
+          <a
+            class="cta-button disabled"
             aria-label="LiveListen feature coming soon"
           >
             Coming Soon
-        </button>
+        </a>
         </div>
       </section>
 
