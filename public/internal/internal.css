@@ -1,28 +1,9 @@
-/* ===== CONTROLS SECTION ===== */
+/* ===== VOICENOTES PAGE TWEAKS ===== */
 
 .controls {
-    background: #2d3748;
-    padding: 3rem;
-    border-radius: 12px;
-    margin-bottom: 3rem;
-    border: 1px solid #4a5568;
+    gap: 2rem;
 }
 
 .font-control {
-    text-align: center;
-}
-
-.font-control label {
-    margin-right: 1rem;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-.font-control select {
-    padding: 0.8rem 1.2rem;
-    border-radius: 6px;
-    border: 1px solid #bdc3c7;
-    font-size: 14px;
-    background-color: white;
-    color: #000000;
+    padding-top: 0.4rem;
 }
