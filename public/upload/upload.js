@@ -47,5 +47,6 @@ uploadBtn.addEventListener("click", function (event) {
         clearInterval(intervalId); // Stop updating dots
 
       process.style.display = "none"; // Hide processing message
+      clearClientStorage();
     });
 });

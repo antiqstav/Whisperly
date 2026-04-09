@@ -1,7 +1,7 @@
 import whisper
 import tempfile
 
-model = whisper.load_model("base")
+model = whisper.load_model("tiny")
 
 def transcribe_audio(audio_bytes):
     with tempfile.NamedTemporaryFile(suffix=".webm") as f:
