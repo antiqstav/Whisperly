@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Whisperly - Live Users</title>
+    <meta name="description" content="Browse and download live transcription recordings">
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="liveusers.css" />
+  </head>
+  <body>
+    <nav class="sidenav" role="navigation" aria-label="Main navigation">
+      <div class="nav-header">
+        <a href="../index/index.html">
+          <h2 class="nav-title">Whisperly</h2>
+        </a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="../index/index.html" aria-label="Go to home page">
+          <span class="label">Home</span>
+        </a></li>
+        <li><a href="../upload/upload.html" aria-label="Go to DropAndListen file audio transcription">
+          <span class="label">DropAndListen</span>
+        </a></li>
+        <li><a href="../internal/internal.html" aria-label="Go to VoiceNotes browser audio transcription">
+          <span class="label">VoiceNotes</span>
+        </a></li>
+        <li><a href="../external/" aria-label="Go to LiveListen microphone transcription">
+          <span class="label">LiveListen</span>
+        </a></li>
+        <li><a href="liveusers.html" class="active" aria-label="Live Users recordings (current page)">
+          <span class="label">Live Users</span>
+        </a></li>
+        <li><a href="../signin/signin.html" id="nav-signin-link" aria-label="Sign in to your account">
+          <span class="label" id="nav-signin-label">Sign In</span>
+        </a></li>
+      </ul>
+    </nav>
+
+    <main class="main" role="main">
+      <header class="page-header">
+        <h1 class="page-title">Live Users</h1>
+        <p class="page-description">Recordings from live transcription sessions</p>
+      </header>
+
+      <!-- Loading state -->
+      <div id="loading-state" class="loading-state" aria-live="polite">Loading recordings...</div>
+
+      <!-- Empty state -->
+      <div id="empty-state" class="empty-state" hidden>
+        <p>No recordings yet. Start a <a href="../external/">LiveListen</a> session to create one.</p>
+      </div>
+
+      <!-- Recordings table -->
+      <div id="table-wrapper" class="table-wrapper" hidden>
+        <table class="recordings-table" aria-label="Recordings database">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Date Taken</th>
+              <th scope="col">Time Taken</th>
+              <th scope="col">Transcription</th>
+              <th scope="col" id="audio-col-header">Audio</th>
+            </tr>
+          </thead>
+          <tbody id="recordings-tbody"></tbody>
+        </table>
+      </div>
+    </main>
+
+    <script src="liveusers.js"></script>
+  </body>
+</html>

@@ -6,14 +6,15 @@
     <title>Whisperly - LiveListen</title>
     <meta name="description" content="Real-time microphone transcription with AI">
     <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="external.css" />
   </head>
   <body>
     <nav class="sidenav" role="navigation" aria-label="Main navigation">
       <div class="nav-header">
-      <a href="../index/index.html">
-        <h2 class="nav-title">Whisperly</h2>
-      </a>
-    </div>
+        <a href="../index/index.html">
+          <h2 class="nav-title">Whisperly</h2>
+        </a>
+      </div>
       <ul class="nav-links">
         <li><a href="../index/index.html" aria-label="Go to home page">
           <span class="label">Home</span>
@@ -27,51 +28,142 @@
         <li><a href="../external/" class="active" aria-label="LiveListen microphone transcription (current page)">
           <span class="label">LiveListen</span>
         </a></li>
+        <li><a href="../liveusers/liveusers.html" aria-label="Go to Live Users recordings">
+          <span class="label">Live Users</span>
+        </a></li>
+        <li><a href="../signin/signin.html" id="nav-signin-link" aria-label="Sign in to your account">
+          <span class="label" id="nav-signin-label">Sign In</span>
+        </a></li>
       </ul>
     </nav>
-    
-    <main class="main" role="main">
-      <header class="page-header">
-        <h1 class="page-title">LiveListen</h1>
-        <p class="page-description">Real-time microphone transcription</p>
-        <p class="instructions"><strong>Instructions:</strong> Click "Start Listening", allow microphone access, and Whisperly will append live transcript chunks as you speak.</p>
-      </header>
-      
-      <section class="controls" aria-labelledby="controls-heading">
-        <h2 id="controls-heading" class="sr-only">Recording Controls</h2>
-        <div class="control-buttons">
-          <button id="startBtn" aria-label="Start microphone recording">Start Listening</button>
-          <button id="stopBtn" style="display: none" aria-label="Stop microphone recording">Stop Listening</button>
-          <button id="summaryBtn" aria-label="Generate summary of transcription" disabled>Summary Coming Soon</button>
+
+    <main class="main main-split" role="main">
+
+      <!-- ===== LEFT: Live Listen ===== -->
+      <div class="split-left" role="region" aria-label="Live transcription">
+        <header class="page-header">
+          <h1 class="page-title">LiveListen</h1>
+          <p class="page-description">Real-time microphone transcription</p>
+          <p class="instructions"><strong>Instructions:</strong> Click "Start Listening", allow microphone access, and Whisperly will append live transcript chunks as you speak.</p>
+        </header>
+
+        <section class="controls" aria-labelledby="controls-heading">
+          <h2 id="controls-heading" class="sr-only">Recording Controls</h2>
+          <div class="control-buttons">
+            <button id="startBtn" aria-label="Start microphone recording">Start Listening</button>
+            <button id="stopBtn" style="display: none" aria-label="Stop microphone recording">Stop Listening</button>
+            <button id="saveBtn" style="display: none" class="save-btn" aria-label="Save this recording to the database">Save Recording</button>
+            <button id="summaryBtn" aria-label="Generate summary of transcription" disabled>Summary Coming Soon</button>
+          </div>
+
+          <div id="statusMessage" class="error-message" role="status" aria-live="polite" hidden></div>
+          <div id="saveMessage" class="save-message" role="status" aria-live="polite" hidden></div>
+
+          <div class="font-control">
+            <label for="fontSize">Text Size:</label>
+            <select id="fontSize" aria-label="Choose text size for captions">
+              <option value="16px">Small</option>
+              <option value="22px" selected>Medium</option>
+              <option value="28px">Large</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="output" aria-labelledby="output-heading">
+          <h2 id="output-heading" class="sr-only">Transcription Output</h2>
+          <div class="captions" aria-live="polite" aria-label="Live transcription">
+            <h3>Transcription:</h3>
+            <div id="captions-text"></div>
+          </div>
+          <div class="summary show" aria-live="polite" aria-label="Generated summary">
+            <h3>Summary:</h3>
+            <div id="summary-text">Summaries for LiveListen are coming soon!</div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ===== RIGHT: Database ===== -->
+      <div class="split-right" role="region" aria-label="Database and account">
+
+        <!-- Auth Widget -->
+        <div class="auth-widget" id="auth-widget">
+          <div id="auth-forms-section">
+            <div class="widget-auth-tabs">
+              <button class="widget-tab-btn active" id="w-signin-tab" aria-label="Show sign in form">Sign In</button>
+              <button class="widget-tab-btn" id="w-register-tab" aria-label="Show create account form">Create Account</button>
+            </div>
+
+            <div id="w-auth-error" class="widget-error" hidden></div>
+
+            <!-- Sign In Form -->
+            <div id="w-signin-panel" class="widget-panel">
+              <form id="w-signin-form" novalidate>
+                <div class="w-form-group">
+                  <input type="email" id="w-signin-email" placeholder="Email" autocomplete="email" required>
+                </div>
+                <div class="w-form-group">
+                  <input type="password" id="w-signin-password" placeholder="Password" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="w-auth-btn" id="w-signin-btn">Sign In</button>
+              </form>
+            </div>
+
+            <!-- Create Account Form -->
+            <div id="w-register-panel" class="widget-panel hidden">
+              <form id="w-register-form" novalidate>
+                <div class="w-form-group">
+                  <input type="text" id="w-register-name" placeholder="Display name (optional)" autocomplete="name">
+                </div>
+                <div class="w-form-group">
+                  <input type="email" id="w-register-email" placeholder="Email" autocomplete="email" required>
+                </div>
+                <div class="w-form-group">
+                  <input type="password" id="w-register-password" placeholder="Password (min. 6 chars)" autocomplete="new-password" required>
+                </div>
+                <button type="submit" class="w-auth-btn" id="w-register-btn">Create Account</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Signed-in state (hidden by default) -->
+          <div id="auth-signed-in" class="auth-signed-in" hidden>
+            <div class="signed-in-info">
+              <span class="signed-in-name" id="signed-in-name"></span>
+              <span class="signed-in-email" id="signed-in-email"></span>
+            </div>
+            <button id="signout-btn" class="signout-btn">Sign Out</button>
+          </div>
         </div>
 
-        <div id="statusMessage" class="error-message" role="status" aria-live="polite" hidden></div>
-        
-        <div class="font-control">
-          <label for="fontSize">Text Size:</label>
-          <select id="fontSize" aria-label="Choose text size for captions">
-            <option value="16px">Small</option>
-            <option value="22px" selected>Medium</option>
-            <option value="28px">Large</option>
-          </select>
+        <!-- Database Table -->
+        <div class="db-section">
+          <div class="db-header">
+            <h2 class="db-title">Database</h2>
+            <button id="refresh-btn" class="refresh-btn" aria-label="Refresh recordings list">Refresh</button>
+          </div>
+
+          <div id="db-loading" class="db-status">Loading...</div>
+          <div id="db-empty" class="db-status" hidden>No recordings yet. Start a session and save it!</div>
+
+          <div id="db-table-wrapper" class="db-table-wrapper" hidden>
+            <table class="db-table" aria-label="Recordings database">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Date Taken</th>
+                  <th>Time Taken</th>
+                  <th>Transcription</th>
+                </tr>
+              </thead>
+              <tbody id="db-tbody"></tbody>
+            </table>
+          </div>
         </div>
-      </section>
-      
-      <section class="output" aria-labelledby="output-heading">
-        <h2 id="output-heading" class="sr-only">Transcription Output</h2>
-        <div class="captions" aria-live="polite" aria-label="Live transcription">
-          <h3>Transcription:</h3>
-          <div id="captions-text"></div>
-        </div>
-        <div class="summary show" aria-live="polite" aria-label="Generated summary">
-          <h3>Summary:</h3>
-          <div id="summary-text">Summaries for LiveListen are coming soon!</div>
-        </div>
-      </section>
+      </div>
+
     </main>
-    
-    <script src="../util.js"></script>
-    <script src="../live-transcription.js"></script>
+
     <script src="external.js"></script>
   </body>
 </html>

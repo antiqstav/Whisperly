@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Whisperly - Sign In</title>
+    <meta name="description" content="Sign in to your Whisperly account">
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="signin.css" />
+  </head>
+  <body>
+    <nav class="sidenav" role="navigation" aria-label="Main navigation">
+      <div class="nav-header">
+        <a href="../index/index.html">
+          <h2 class="nav-title">Whisperly</h2>
+        </a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="../index/index.html" aria-label="Go to home page">
+          <span class="label">Home</span>
+        </a></li>
+        <li><a href="../upload/upload.html" aria-label="Go to DropAndListen file audio transcription">
+          <span class="label">DropAndListen</span>
+        </a></li>
+        <li><a href="../internal/internal.html" aria-label="Go to VoiceNotes browser audio transcription">
+          <span class="label">VoiceNotes</span>
+        </a></li>
+        <li><a href="../external/" aria-label="Go to LiveListen microphone transcription">
+          <span class="label">LiveListen</span>
+        </a></li>
+        <li><a href="../liveusers/liveusers.html" aria-label="Go to Live Users recordings">
+          <span class="label">Live Users</span>
+        </a></li>
+        <li><a href="signin.html" class="active" aria-label="Sign in to your account (current page)">
+          <span class="label">Sign In</span>
+        </a></li>
+      </ul>
+    </nav>
+
+    <main class="main" role="main">
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="auth-logo">
+            <h1>Whisperly</h1>
+            <p>AI-Powered Transcription</p>
+          </div>
+
+          <div class="auth-tabs" role="tablist">
+            <button class="tab-btn active" id="signin-tab-btn" role="tab" aria-selected="true" aria-controls="signin-panel">Sign In</button>
+            <button class="tab-btn" id="register-tab-btn" role="tab" aria-selected="false" aria-controls="register-panel">Create Account</button>
+          </div>
+
+          <div id="auth-error" class="auth-error" hidden role="alert"></div>
+          <div id="auth-success" class="auth-success" hidden role="status"></div>
+
+          <!-- Sign In Panel -->
+          <div id="signin-panel" class="auth-panel" role="tabpanel" aria-labelledby="signin-tab-btn">
+            <form id="signin-form" novalidate>
+              <div class="form-group">
+                <label for="signin-email">Email</label>
+                <input type="email" id="signin-email" name="email" placeholder="you@example.com" autocomplete="email" required>
+              </div>
+              <div class="form-group">
+                <label for="signin-password">Password</label>
+                <input type="password" id="signin-password" name="password" placeholder="Your password" autocomplete="current-password" required>
+              </div>
+              <button type="submit" class="auth-submit-btn" id="signin-btn">Sign In</button>
+            </form>
+          </div>
+
+          <!-- Create Account Panel -->
+          <div id="register-panel" class="auth-panel hidden" role="tabpanel" aria-labelledby="register-tab-btn">
+            <form id="register-form" novalidate>
+              <div class="form-group">
+                <label for="register-name">Display Name</label>
+                <input type="text" id="register-name" name="name" placeholder="Your name" autocomplete="name">
+              </div>
+              <div class="form-group">
+                <label for="register-email">Email</label>
+                <input type="email" id="register-email" name="email" placeholder="you@example.com" autocomplete="email" required>
+              </div>
+              <div class="form-group">
+                <label for="register-password">Password <span class="hint">(min. 6 characters)</span></label>
+                <input type="password" id="register-password" name="password" placeholder="Create a password" autocomplete="new-password" required>
+              </div>
+              <button type="submit" class="auth-submit-btn" id="register-btn">Create Account</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="signin.js"></script>
+  </body>
+</html>

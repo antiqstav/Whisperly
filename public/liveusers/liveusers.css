@@ -1,0 +1,130 @@
+.loading-state {
+  color: #718096;
+  font-size: 16px;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.empty-state {
+  color: #718096;
+  font-size: 16px;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.empty-state a {
+  color: #ff6b35;
+  text-decoration: none;
+}
+
+.empty-state a:hover {
+  text-decoration: underline;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #2d3748;
+}
+
+.recordings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.recordings-table thead {
+  background-color: #1a1d23;
+}
+
+.recordings-table th {
+  color: #ff6b35;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1.2rem 1.6rem;
+  text-align: left;
+  border-bottom: 2px solid #2d3748;
+  white-space: nowrap;
+}
+
+.recordings-table td {
+  padding: 1.2rem 1.6rem;
+  border-bottom: 1px solid #2d3748;
+  color: #e2e8f0;
+  vertical-align: middle;
+}
+
+.recordings-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.recordings-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.id-cell {
+  color: #718096;
+  font-size: 13px;
+  font-family: monospace;
+}
+
+.name-cell {
+  font-weight: 600;
+}
+
+.date-cell,
+.time-cell {
+  font-size: 14px;
+  color: #a0aec0;
+  white-space: nowrap;
+}
+
+.transcript-cell,
+.audio-cell {
+  white-space: nowrap;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #2d3748;
+  color: #e2e8f0;
+  border: 1px solid #4a5568;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s, border-color 0.2s;
+  margin-top: 0;
+  min-height: unset;
+}
+
+.download-btn:hover {
+  background-color: #3a4a60;
+  border-color: #ff6b35;
+  color: #ffffff;
+}
+
+.download-btn.audio-btn {
+  border-color: #2d3748;
+}
+
+.lock-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #718096;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .recordings-table th,
+  .recordings-table td {
+    padding: 1rem;
+  }
+}

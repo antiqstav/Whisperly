@@ -6,6 +6,7 @@
   <title>Whisperly - VoiceNotes</title>
   <meta name="description" content="Real-time browser audio transcription with AI">
   <link rel="stylesheet" href="../index.css" />
+  <link rel="stylesheet" href="internal.css" />
 </head>
 <body>
   <nav class="sidenav" role="navigation" aria-label="Main navigation">
@@ -27,6 +28,12 @@
       <li><a href="../external/" aria-label="Go to LiveListen microphone transcription">
         <span class="label">LiveListen</span>
       </a></li>
+      <li><a href="../liveusers/liveusers.html" aria-label="Go to Live Users recordings">
+        <span class="label">Live Users</span>
+      </a></li>
+      <li><a href="../signin/signin.html" aria-label="Sign in to your account">
+        <span class="label">Sign In</span>
+      </a></li>
     </ul>
   </nav>
   
@@ -34,7 +41,7 @@
     <header class="page-header">
       <h1 class="page-title">VoiceNotes</h1>
       <p class="page-description">Real-time browser audio transcription</p>
-      <p class="instructions"><strong>Instructions:</strong> Click "Start Listening" and select the browser tab with audio you want to transcribe (YouTube, Zoom, etc.)</p>
+      <p class="instructions"><strong>Instructions:</strong> Click "Start Listening" and select the browser tab with audio you want to transcribe (YouTube, Netflix, Zoom, etc.)</p>
     </header>
     
     <section class="controls" aria-labelledby="controls-heading">
@@ -42,10 +49,8 @@
       <div class="control-buttons">
         <button id="startBtn" aria-label="Start browser audio recording">Start Listening</button>
         <button id="stopBtn" style="display: none" aria-label="Stop browser audio recording">Stop Listening</button>
-        <button id="summaryBtn" aria-label="Generate summary of transcription" disabled>Summary Coming Soon</button>
+        <button id="summaryBtn" aria-label="Generate summary of transcription">Get Summary</button>
       </div>
-
-      <div id="statusMessage" class="error-message" role="status" aria-live="polite" hidden></div>
       
       <div class="font-control">
         <label for="fontSize">Text Size:</label>
@@ -63,15 +68,13 @@
         <h3>Transcription:</h3>
         <div id="captions-text"></div>
       </div>
-      <div class="summary show" aria-live="polite" aria-label="Generated summary">
+      <div class="summary" aria-live="polite" aria-label="Generated summary">
         <h3>Summary:</h3>
-        <div id="summary-text">Summaries for VoiceNotes are coming soon!</div>
+        <div id="summary-text"></div>
       </div>
     </section>
   </main>
   
-  <script src="../util.js"></script>
-  <script src="../live-transcription.js"></script>
   <script src="internal.js"></script>
 </body>
 </html>
